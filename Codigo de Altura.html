@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Codigo de Altura</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .page { display: none; }
+    .page.active { display: block; }
+    .flight-card { transition: all 0.3s; }
+    .flight-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen font-sans">
+
+  <!-- NAVEGACIÓN CON LOGO LOCAL -->
+  <nav class="bg-white shadow-lg sticky top-0 z-10 py-4 border-b-4 border-blue-700">
+    <div class="max-w-6xl mx-auto flex justify-between items-center px-6">
+      <div class="flex items-center space-x-4">
+        <!-- LOGO LOCAL: debe estar en la misma carpeta -->
+        <img src="logo.png" alt="Logo Codigo de Altura" class="h-16">
+        <div>
+          <h1 class="text-3xl font-bold text-blue-900">CÓDIGO DE ALTURA</h1>
+          <p class="text-sm text-blue-700 -mt-1">Solución al más alto nivel</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-6" id="nav-links">
+        <a href="#" onclick="show('home')" class="text-blue-700 hover:underline text-lg font-medium">Inicio</a>
+        <a href="#" onclick="show('search')" class="text-blue-700 hover:underline text-lg font-medium">Buscar Vuelos</a>
+        <a href="#" onclick="show('login')" class="text-blue-700 hover:underline text-lg font-medium">Iniciar Sesión</a>
+        <a href="#" onclick="show('register')" class="text-blue-700 hover:underline text-lg font-medium">Registrarse</a>
+      </div>
+      <div id="user-info" class="hidden flex items-center space-x-6">
+        <a href="#" onclick="show('home')" class="text-blue-700 hover:underline text-lg font-medium">Inicio</a>
+        <a href="#" onclick="show('search')" class="text-blue-700 hover:underline text-lg font-medium">Buscar Vuelos</a>
+        <button onclick="show('profile')" class="font-bold text-blue-900 hover:underline text-xl" id="user-name-btn"></button>
+        <button onclick="logout()" class="bg-red-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-700 font-medium">Salir</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- === RESTO DEL CÓDIGO (IGUAL QUE ANTES) === -->
+  <!-- PÁGINA: INICIO -->
+  <div id="home" class="page active text-center py-20 px-6">
+    <h2 class="text-5xl font-bold text-blue-800 mb-6">¡Vuela con confianza!</h2>
+    <p class="text-xl text-gray-700 mb-8">Reserva tu vuelo en minutos. Precios bajos, destinos increíbles.</p>
+    <button onclick="show('search')" class="bg-green-600 text-white px-8 py-4 rounded-lg text-xl hover:bg-green-700 transition font-medium">
+      Buscar Vuelos
+    </button>
+  </div>
+
+  <!-- PÁGINA: BUSCAR VUELOS -->
+  <div id="search" class="page max-w-4xl mx-auto p-6">
+    <h2 class="text-3xl font-bold text-center mb-8 text-blue-800">Buscar Vuelos</h2>
+    <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
+      <div class="grid md:grid-cols-3 gap-4 mb-4">
+        <input type="text" id="origen" placeholder="Origen" class="p-3 border rounded-lg" value="Santo Domingo R.D.">
+        <input type="text" id="destino" placeholder="Destino" class="p-3 border rounded-lg">
+        <input type="date" id="fecha" class="p-3 border rounded-lg">
+      </div>
+      <div class="flex space-x-3">
+        <button onclick="buscarVuelos()" class="flex-1 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 font-medium">
+          Buscar
+        </button>
+        <button onclick="limpiarBusqueda()" class="flex-1 bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-700 font-medium">
+          Limpiar
+        </button>
+      </div>
+    </div>
+    <div id="resultados" class="space-y-6"></div>
+  </div>
+
+  <!-- === REGISTRO, LOGIN, PERFIL, SCRIPTS === -->
+  <!-- (Todo igual que antes, solo copio lo esencial) -->
+
+  <!-- PÁGINA: REGISTRO -->
+  <div id="register" class="page max-w-md mx-auto p-6">
+    <div class="bg-white p-8 rounded-xl shadow-lg">
+      <h2 class="text-2xl font-bold text-center mb-6 text-blue-800">Crear Cuenta</h2>
+      <form onsubmit="registrar(event)" class="space-y-4">
+        <input type="text" id="reg-name" placeholder="Nombre completo" required class="w-full p-3 border rounded-lg">
+        <input type="text" id="reg-address" placeholder="Dirección" required class="w-full p-3 border rounded-lg">
+        <div id="company-field" class="hidden">
+          <input type="text" id="reg-company" placeholder="Nombre de la empresa" class="w-full p-3 border rounded-lg">
+        </div>
+        <input type="tel" id="reg-phone" placeholder="Teléfono" required class="w-full p-3 border rounded-lg">
+        <input type="email" id="reg-email" placeholder="Correo electrónico" required class="w-full p-3 border rounded-lg">
+        <input type="password" id="reg-password" placeholder="Contraseña" required class="w-full p-3 border rounded-lg">
+        <select id="reg-type" onchange="toggleCompany()" class="w-full p-3 border rounded-lg">
+          <option value="retail">Cliente minorista</option>
+          <option value="corporate">Cliente corporativo</option>
+        </select>
+        <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 font-medium">
+          Registrarme
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- PÁGINA: LOGIN -->
+  <div id="login" class="page max-w-md mx-auto p-6">
+    <div class="bg-white p-8 rounded-xl shadow-lg">
+      <h2 class="text-2xl font-bold text-center mb-6 text-blue-800">Iniciar Sesión</h2>
+      <form onsubmit="iniciarSesion(event)" class="space-y-4">
+        <input type="email" id="login-email" placeholder="Correo" required class="w-full p-3 border rounded-lg">
+        <input type="password" id="login-password" placeholder="Contraseña" required class="w-full p-3 border rounded-lg">
+        <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 font-medium">
+          Entrar
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- PÁGINA: PERFIL -->
+  <div id="profile" class="page max-w-4xl mx-auto p-6">
+    <h2 class="text-3xl font-bold text-center mb-8 text-blue-800">Mi Perfil</h2>
+    <div class="bg-white p-8 rounded-xl shadow-lg mb-8">
+      <h3 class="text-2xl font-bold mb-4 text-blue-700">Información Personal</h3>
+      <div class="grid md:grid-cols-2 gap-4 text-lg">
+        <p><strong>Nombre:</strong> <span id="profile-name"></span></p>
+        <p><strong>Email:</strong> <span id="profile-email"></span></p>
+        <p><strong>Teléfono:</strong> <span id="profile-phone"></span></p>
+        <p><strong>Dirección:</strong> <span id="profile-address"></span></p>
+        <p><strong>Tipo:</strong> <span id="profile-type"></span></p>
+        <p id="profile-company-line" class="hidden"><strong>Empresa:</strong> <span id="profile-company"></span></p>
+      </div>
+    </div>
+    <div class="bg-white p-8 rounded-xl shadow-lg">
+      <h3 class="text-2xl font-bold mb-4 text-blue-700">Mis Reservas</h3>
+      <div id="profile-reservas" class="space-y-4"></div>
+      <p id="no-reservas" class="text-gray-600 italic">No tienes reservas.</p>
+    </div>
+  </div>
+
+  <!-- SCRIPTS (sin cambios) -->
+  <script>
+    let usuarioActual = null;
+    let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+    let reservas = JSON.parse(localStorage.getItem('reservas') || '[]');
+
+    function show(pageId) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+      if (pageId === 'profile') mostrarPerfil();
+      if (pageId === 'search') buscarVuelos();
+    }
+
+    function toggleCompany() {
+      const type = document.getElementById('reg-type').value;
+      const field = document.getElementById('company-field');
+      const input = document.getElementById('reg-company');
+      if (type === 'corporate') {
+        field.classList.remove('hidden'); input.required = true;
+      } else {
+        field.classList.add('hidden'); input.required = false;
+      }
+    }
+
+    function registrar(e) {
+      e.preventDefault();
+      const type = document.getElementById('reg-type').value;
+      const empresa = type === 'corporate' ? document.getElementById('reg-company').value.trim() : null;
+      if (type === 'corporate' && !empresa) { alert('Empresa requerida'); return; }
+
+      const nuevo = {
+        nombre: document.getElementById('reg-name').value.trim(),
+        direccion: document.getElementById('reg-address').value.trim(),
+        telefono: document.getElementById('reg-phone').value.trim(),
+        email: document.getElementById('reg-email').value.trim().toLowerCase(),
+        password: document.getElementById('reg-password').value,
+        tipo: type,
+        empresa: empresa
+      };
+
+      if (usuarios.some(u => u.email === nuevo.email)) { alert('Correo ya existe'); return; }
+      usuarios.push(nuevo);
+      localStorage.setItem('usuarios', JSON.stringify(usuarios));
+      alert('¡Registrado!');
+      show('login');
+    }
+
+    function iniciarSesion(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value.trim().toLowerCase();
+      const pass = document.getElementById('login-password').value;
+      const user = usuarios.find(u => u.email === email && u.password === pass);
+      if (user) { usuarioActual = user; actualizarNav(); show('search'); }
+      else alert('Credenciales incorrectas');
+    }
+
+    function logout() { usuarioActual = null; localStorage.removeItem('lastSearch'); actualizarNav(); show('home'); }
+
+    function actualizarNav() {
+      const nav = document.getElementById('nav-links');
+      const user = document.getElementById('user-info');
+      const btn = document.getElementById('user-name-btn');
+      if (usuarioActual) { nav.classList.add('hidden'); user.classList.remove('hidden'); btn.textContent = usuarioActual.nombre; }
+      else { nav.classList.remove('hidden'); user.classList.add('hidden'); }
+    }
+
+    function mostrarPerfil() {
+      if (!usuarioActual) { show('login'); return; }
+      document.getElementById('profile-name').textContent = usuarioActual.nombre;
+      document.getElementById('profile-email').textContent = usuarioActual.email;
+      document.getElementById('profile-phone').textContent = usuarioActual.telefono;
+      document.getElementById('profile-address').textContent = usuarioActual.direccion;
+      document.getElementById('profile-type').textContent = usuarioActual.tipo === 'corporate' ? 'Cliente Corporativo' : 'Cliente Minorista';
+      const companyLine = document.getElementById('profile-company-line');
+      const companySpan = document.getElementById('profile-company');
+      if (usuarioActual.empresa) { companySpan.textContent = usuarioActual.empresa; companyLine.classList.remove('hidden'); }
+      else companyLine.classList.add('hidden');
+
+      const misReservas = reservas.filter(r => r.email === usuarioActual.email);
+      const container = document.getElementById('profile-reservas');
+      const noRes = document.getElementById('no-reservas');
+      if (misReservas.length === 0) { container.innerHTML = ''; noRes.classList.remove('hidden'); return; }
+      noRes.classList.add('hidden');
+      container.innerHTML = misReservas.map((r, i) => `
+        <div class="border p-4 rounded-lg flex justify-between items-center bg-blue-50">
+          <div>
+            <p class="font-bold text-lg text-blue-900">${r.numero} to ${r.destino.split(',')[0]}</p>
+            <p class="text-sm text-gray-700">Origen: ${r.origen}</p>
+            <p class="text-sm text-gray-700">Salida: ${new Date(r.salida).toLocaleDateString('es-DO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+            <p class="text-sm text-gray-700">Reservado: ${r.fechaReserva}</p>
+          </div>
+          <button onclick="eliminarReserva(${i})" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 text-sm">Eliminar</button>
+        </div>
+      `).join('');
+    }
+
+    function eliminarReserva(i) {
+      if (confirm('¿Eliminar?')) { reservas.splice(i, 1); localStorage.setItem('reservas', JSON.stringify(reservas)); mostrarPerfil(); }
+    }
+
+    const vuelos = [
+      { id: 1, numero: "RD101", origen: "Aeropuerto Internacional Las Americas, SDQ", destino: "El Dorado, Bogota co", salida: "2025-11-20", precio: 1250, asientos: 50 },
+      { id: 2, numero: "RD102", origen: "Aeropuerto Internacional Las Americas, SDQ", destino: "Aeropuerto Internacional John F. Kennedy, NY, EU", salida: "2025-11-21", precio: 2890, asientos: 40 },
+      { id: 3, numero: "RD103", origen: "Aeropuerto Internacional Punta Cana, PUJ", destino: "Aeropuerto Internacional Hartsfield-Jackson, ATL", salida: "2025-11-22", precio: 980, asientos: 60 },
+      { id: 4, numero: "RD104", origen: "Aeropuerto Internacional Las Americas, SDQ", destino: "El Dorado, Bogota co", salida: "2025-12-20", precio: 1250, asientos: 50 },
+      { id: 5, numero: "RD105", origen: "Aeropuerto Internacional Las Americas, SDQ", destino: "Aeropuerto Internacional John F. Kennedy, NY, EU", salida: "2025-12-21", precio: 2890, asientos: 40 },
+      { id: 6, numero: "RD106", origen: "Aeropuerto Internacional Punta Cana, PUJ", destino: "Aeropuerto Internacional Hartsfield-Jackson, ATL", salida: "2025-12-22", precio: 980, asientos: 60 }
+    ];
+
+    function buscarVuelos() {
+      const o = document.getElementById('origen').value.trim().toLowerCase();
+      const d = document.getElementById('destino').value.trim().toLowerCase();
+      const f = document.getElementById('fecha').value;
+      localStorage.setItem('lastSearch', JSON.stringify({origen: o, destino: d, fecha: f}));
+      const res = document.getElementById('resultados'); res.innerHTML = '';
+      const filtrados = vuelos.filter(v => 
+        (!o || v.origen.toLowerCase().includes(o)) &&
+        (!d || v.destino.toLowerCase().includes(d)) &&
+        (!f || v.salida === f)
+      );
+      if (filtrados.length === 0) { res.innerHTML = '<p class="text-center text-gray-600">Sin resultados.</p>'; return; }
+      filtrados.forEach(v => {
+        const card = document.createElement('div');
+        card.className = 'flight-card bg-white p-6 rounded-xl shadow-md';
+        card.innerHTML = `
+          <div class="flex justify-between items-center">
+            <div>
+              <p class="text-2xl font-bold text-blue-700">${v.numero}</p>
+              <p class="text-lg">${v.origen} to ${v.destino}</p>
+              <p class="text-gray-600">${new Date(v.salida + 'T12:00').toLocaleDateString('es-DO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+            </div>
+            <div class="text-right">
+              <p class="text-3xl font-bold text-green-600">$${v.precio}</p>
+              <p class="text-sm text-gray-600">${v.asientos} asientos</p>
+            </div>
+          </div>
+          <button onclick="reservar(${v.id})" class="mt-4 w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 font-medium">
+            Reservar Ahora
+          </button>
+        `;
+        res.appendChild(card);
+      });
+    }
+
+    function limpiarBusqueda() {
+      document.getElementById('origen').value = '';
+      document.getElementById('destino').value = '';
+      document.getElementById('fecha').value = '';
+      localStorage.removeItem('lastSearch');
+      buscarVuelos();
+    }
+
+    function reservar(id) {
+      if (!usuarioActual) { alert('Inicia sesión'); show('login'); return; }
+      const v = vuelos.find(x => x.id === id);
+      reservas.push({ ...v, fechaReserva: new Date().toLocaleString(), email: usuarioActual.email });
+      localStorage.setItem('reservas', JSON.stringify(reservas));
+      alert('¡Reservado!');
+    }
+
+    window.onload = () => {
+      actualizarNav();
+      limpiarBusqueda();
+    };
+  </script>
+</body>
+</html>
