@@ -217,7 +217,7 @@
       container.innerHTML = misReservas.map((r, i) => `
         <div class="border p-4 rounded-lg flex justify-between items-center bg-blue-50">
           <div>
-            <p class="font-bold text-lg text-blue-900">${r.numero} to ${r.destino.split(',')[0]}</p>
+            <p class="font-bold text-lg text-blue-900">${r.numero} --> ${r.destino.split(',')[0]}</p>
             <p class="text-sm text-gray-700">Origen: ${r.origen}</p>
             <p class="text-sm text-gray-700">Salida: ${new Date(r.salida).toLocaleDateString('es-DO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
             <p class="text-sm text-gray-700">Reservado: ${r.fechaReserva}</p>
