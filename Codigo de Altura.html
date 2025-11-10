@@ -40,7 +40,6 @@
     </div>
   </nav>
 
-  <!-- === RESTO DEL CÓDIGO (IGUAL QUE ANTES) === -->
   <!-- PÁGINA: INICIO -->
   <div id="home" class="page active text-center py-20 px-6">
     <h2 class="text-5xl font-bold text-blue-800 mb-6">¡Vuela con confianza!</h2>
@@ -72,8 +71,7 @@
   </div>
 
   <!-- === REGISTRO, LOGIN, PERFIL, SCRIPTS === -->
-  <!-- (Todo igual que antes, solo copio lo esencial) -->
-
+  
   <!-- PÁGINA: REGISTRO -->
   <div id="register" class="page max-w-md mx-auto p-6">
     <div class="bg-white p-8 rounded-xl shadow-lg">
@@ -133,7 +131,7 @@
     </div>
   </div>
 
-  <!-- SCRIPTS (sin cambios) -->
+  <!-- SCRIPTS -->
   <script>
     let usuarioActual = null;
     let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
@@ -219,7 +217,7 @@
       container.innerHTML = misReservas.map((r, i) => `
         <div class="border p-4 rounded-lg flex justify-between items-center bg-blue-50">
           <div>
-            <p class="font-bold text-lg text-blue-900">${r.numero} to ${r.destino.split(',')[0]}</p>
+            <p class="font-bold text-lg text-blue-900">${r.numero} --> ${r.destino.split(',')[0]}</p>
             <p class="text-sm text-gray-700">Origen: ${r.origen}</p>
             <p class="text-sm text-gray-700">Salida: ${new Date(r.salida).toLocaleDateString('es-DO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
             <p class="text-sm text-gray-700">Reservado: ${r.fechaReserva}</p>
@@ -261,7 +259,7 @@
           <div class="flex justify-between items-center">
             <div>
               <p class="text-2xl font-bold text-blue-700">${v.numero}</p>
-              <p class="text-lg">${v.origen} to ${v.destino}</p>
+              <p class="text-lg">${v.origen} --> ${v.destino}</p>
               <p class="text-gray-600">${new Date(v.salida + 'T12:00').toLocaleDateString('es-DO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
             </div>
             <div class="text-right">
