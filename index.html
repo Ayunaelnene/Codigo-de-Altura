@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Aerolínea Regional</title>
+  <title>Codigo de Altura</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     .page { display: none; }
@@ -17,7 +17,7 @@
   <!-- NAVEGACIÓN -->
   <nav class="bg-blue-700 text-white p-4 shadow-lg sticky top-0 z-10">
     <div class="max-w-6xl mx-auto flex justify-between items-center">
-      <h1 class="text-2xl font-bold">Aerolínea Regional</h1>
+      <h1 class="text-2xl font-bold">Codigo de Altura</h1>
       <div class="space-x-6">
         <a href="#" onclick="show('home')" class="hover:underline">Inicio</a>
         <a href="#" onclick="show('search')" class="hover:underline">Buscar Vuelos</a>
@@ -29,7 +29,7 @@
 
   <!-- PÁGINA: INICIO -->
   <div id="home" class="page active text-center py-20 px-6">
-    <h2 class="text-5xl font-bold text-blue-800 mb-6">¡Vuela con Nosotros!</h2>
+    <h2 class="text-5xl font-bold text-blue-800 mb-6">¡Solución al mas alto nivel!</h2>
     <p class="text-xl text-gray-700 mb-8">Reserva tu vuelo en minutos. Precios bajos, destinos increíbles.</p>
     <button onclick="show('search')" class="bg-green-600 text-white px-8 py-4 rounded-lg text-xl hover:bg-green-700 transition">
       Buscar Vuelos
@@ -41,7 +41,7 @@
     <h2 class="text-3xl font-bold text-center mb-8 text-blue-800">Buscar Vuelos</h2>
     <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
       <div class="grid md:grid-cols-3 gap-4">
-        <input type="text" placeholder="Origen" class="p-3 border rounded-lg" value="Ciudad de México">
+        <input type="text" placeholder="Origen" class="p-3 border rounded-lg" value="Santo Domingo R.D.">
         <input type="text" placeholder="Destino" class="p-3 border rounded-lg" id="destino">
         <input type="date" class="p-3 border rounded-lg">
       </div>
@@ -59,7 +59,7 @@
   <div id="register" class="page max-w-md mx-auto p-6">
     <div class="bg-white p-8 rounded-xl shadow-lg">
       <h2 class="text-2xl font-bold text-center mb-6 text-blue-800">Crear Cuenta</h2>
-      <form onsubmit="alert('¡Cuenta creada! (ilustrativo)'); show('login'); return false;" class="space-y-4">
+      <form onsubmit="alert('¡Cuenta creada!'); show('login'); return false;" class="space-y-4">
         <input type="text" placeholder="Nombre completo" required class="w-full p-3 border rounded-lg">
         <input type="text" placeholder="Dirección" required class="w-full p-3 border rounded-lg">
         <input type="text" placeholder="Compañía (opcional)" class="w-full p-3 border rounded-lg">
@@ -89,7 +89,7 @@
         </button>
       </form>
       <p class="text-center mt-4 text-sm text-gray-600">
-        ¿Agente? Usa: <code>agent@aerolinea.com</code> / <code>123</code>
+        Codigo de Altura -Solucion al mas alto nivel-</code> / <code>123</code>
       </p>
     </div>
   </div>
@@ -104,9 +104,12 @@
 
     // Vuelos de ejemplo
     const vuelos = [
-      { id: 1, numero: "AR101", origen: "Ciudad de México", destino: "Guadalajara", salida: "2025-11-10 08:00", precio: 1250, asientos: 50 },
-      { id: 2, numero: "AR102", origen: "Ciudad de México", destino: "Cancún", salida: "2025-11-11 14:30", precio: 2890, asientos: 40 },
-      { id: 3, numero: "AR103", origen: "Guadalajara", destino: "Monterrey", salida: "2025-11-12 10:15", precio: 980, asientos: 60 }
+      { id: 1, numero: "RD101", origen: "AEILA, SDQ", destino: "El Dorado, Bogota co", salida: "2025-11-20 08:00", precio: 1250, asientos: 50 },
+      { id: 2, numero: "RD102", origen: "AILA, SDQ", destino: "AIJFK, NY, EU", salida: "2025-11-21 14:30", precio: 2890, asientos: 40 },
+      { id: 3, numero: "RD103", origen: "AIPC, PUJ", destino: "HJIA, ATL", salida: "2025-11-22 10:15", precio: 980, asientos: 60 },
+      { id: 1, numero: "RD104", origen: "AEILA, SDQ", destino: "El Dorado, Bogota co", salida: "2025-12-20 08:00", precio: 1250, asientos: 50 },
+      { id: 2, numero: "RD105", origen: "AILA, SDQ", destino: "AIJFK, NY, EU", salida: "2025-12-21 14:30", precio: 2890, asientos: 40 },
+      { id: 3, numero: "RD106", origen: "AIPC, PUJ", destino: "HJIA, ATL", salida: "2025-12-22 10:15", precio: 980, asientos: 60 }
     ];
 
     // Buscar vuelos
