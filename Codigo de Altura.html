@@ -15,14 +15,13 @@
     .modal-content { background: white; padding: 2rem; border-radius: 1rem; width: 90%; max-width: 500px; }
   </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen font-sans">
-
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen font-sans flex flex-col">
   <!-- HEADER -->
   <header class="bg-white shadow-md">
-    <div class="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
+    <div class="max-w-7xl mx-auto flex justify-between items-center px-2 py-4">
       <!-- LADO IZQUIERDO: LOGO + TÍTULO -->
-      <div class="flex items-center space-x-6">
-        <div class="bg-yellow-50 p-1 rounded-lg shadow-sm">
+      <div class="flex items-center space-x-2">
+        <div class="bg-blue-50 p-1 rounded-lg shadow-sm">
           <img src="logo.png" alt="Logo" class="h-48 w-auto">
         </div>
         <div>
@@ -30,7 +29,6 @@
           <p class="text-sm text-gray-600">Solución al más alto nivel</p>
         </div>
       </div>
-
       <!-- NAVEGACIÓN DERECHA -->
       <div class="flex items-center space-x-8 text-blue-700 font-medium" id="nav-links">
         <a href="#" onclick="show('home')" class="hover:underline">Inicio</a>
@@ -38,7 +36,6 @@
         <a href="#" onclick="show('login')" class="hover:underline">Iniciar Sesión</a>
         <a href="#" onclick="show('register')" class="hover:underline">Registrarse</a>
       </div>
-
       <!-- USUARIO LOGUEADO -->
       <div id="user-info" class="hidden flex items-center space-x-6">
         <a href="#" onclick="show('home')" class="text-blue-700 hover:underline font-medium">Inicio</a>
@@ -49,114 +46,116 @@
       </div>
     </div>
   </header>
-
   <!-- LÍNEA AZUL -->
   <div class="border-b-4 border-blue-700"></div>
 
-  <!-- PÁGINAS -->
-  <div id="home" class="page active text-center py-20 px-6 bg-gradient-to-b from-blue-50 to-white">
-    <h2 class="text-5xl font-bold text-blue-800 mb-6">¡Vuela con confianza!</h2>
-    <p class="text-xl text-gray-700 mb-8">Reserva tu vuelo en minutos. Precios bajos, destinos increíbles.</p>
-    <button onclick="show('search')" class="bg-green-600 text-white px-8 py-4 rounded-lg text-xl hover:bg-green-700 font-medium shadow-lg">
-      Buscar Vuelos
-    </button>
-  </div>
-
-  <!-- BUSCAR VUELOS -->
-  <div id="search" class="page max-w-4xl mx-auto p-6">
-    <h2 class="text-3xl font-bold text-center mb-8 text-blue-800">Buscar Vuelos</h2>
-    <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
-      <div class="grid md:grid-cols-3 gap-4 mb-4">
-        <input type="text" id="origen" placeholder="Origen" class="p-3 border rounded-lg" value="Santo Domingo R.D.">
-        <input type="text" id="destino" placeholder="Destino" class="p-3 border rounded-lg">
-        <input type="date" id="fecha" class="p-3 border rounded-lg">
-      </div>
-      <div class="flex space-x-3 mb-4">
-        <button onclick="buscarVuelos()" class="flex-1 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 font-medium">Buscar</button>
-        <button onclick="limpiarBusqueda()" class="flex-1 bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-700 font-medium">Limpiar</button>
-      </div>
-      <button onclick="abrirReservaModal()" class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 font-medium">
-        Reservar con Asiento
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="flex-grow">
+    <!-- PÁGINAS -->
+    <div id="home" class="page active text-center py-20 px-6 bg-gradient-to-b from-blue-50 to-white">
+      <h2 class="text-5xl font-bold text-blue-800 mb-6">¡Vuela con confianza!</h2>
+      <p class="text-xl text-gray-700 mb-8">Reserva tu vuelo en minutos. Precios bajos, destinos increíbles.</p>
+      <button onclick="show('search')" class="bg-green-600 text-white px-8 py-4 rounded-lg text-xl hover:bg-green-700 font-medium shadow-lg">
+        Buscar Vuelos
       </button>
     </div>
-    <div id="resultados" class="space-y-6"></div>
-  </div>
-
-  <!-- REGISTRO -->
-  <div id="register" class="page max-w-md mx-auto p-6">
-    <div class="bg-white p-8 rounded-xl shadow-lg">
-      <h2 class="text-2xl font-bold text-center mb-6 text-blue-800">Crear Cuenta</h2>
-      <form onsubmit="registrar(event)" class="space-y-4">
-        <input type="text" id="reg-name" placeholder="Nombre completo" required class="w-full p-3 border rounded-lg">
-        <input type="text" id="reg-address" placeholder="Dirección" required class="w-full p-3 border rounded-lg">
-        <div id="company-field" class="hidden">
-          <input type="text" id="reg-company" placeholder="Nombre de la empresa" class="w-full p-3 border rounded-lg">
+    <!-- BUSCAR VUELOS -->
+    <div id="search" class="page max-w-4xl mx-auto p-6">
+      <h2 class="text-3xl font-bold text-center mb-8 text-blue-800">Buscar Vuelos</h2>
+      <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
+        <div class="grid md:grid-cols-3 gap-4 mb-4">
+          <input type="text" id="origen" placeholder="Origen" class="p-3 border rounded-lg" value="Santo Domingo R.D.">
+          <input type="text" id="destino" placeholder="Destino" class="p-3 border rounded-lg">
+          <input type="date" id="fecha" class="p-3 border rounded-lg">
         </div>
-        <input type="tel" id="reg-phone" placeholder="Teléfono" required class="w-full p-3 border rounded-lg">
-        <input type="email" id="reg-email" placeholder="Correo electrónico" required class="w-full p-3 border rounded-lg">
-        <input type="password" id="reg-password" placeholder="Contraseña" required class="w-full p-3 border rounded-lg">
-        <select id="reg-type" onchange="toggleCompany()" class="w-full p-3 border rounded-lg">
-          <option value="retail">Cliente minorista</option>
-          <option value="corporate">Cliente corporativo</option>
-        </select>
-        <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 font-medium">Registrarme</button>
-      </form>
+        <div class="flex space-x-3 mb-4">
+          <button onclick="buscarVuelos()" class="flex-1 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 font-medium">Buscar</button>
+          <button onclick="limpiarBusqueda()" class="flex-1 bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-700 font-medium">Limpiar</button>
+        </div>
+        <button onclick="abrirReservaModal()" class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 font-medium">
+          Reservar con Asiento
+        </button>
+      </div>
+      <div id="resultados" class="space-y-6"></div>
     </div>
-  </div>
-
-  <!-- LOGIN -->
-  <div id="login" class="page max-w-md mx-auto p-6">
-    <div class="bg-white p-8 rounded-xl shadow-lg">
-      <h2 class="text-2xl font-bold text-center mb-6 text-blue-800">Iniciar Sesión</h2>
-      <form onsubmit="iniciarSesion(event)" class="space-y-4">
-        <input type="email" id="login-email" placeholder="Correo" required class="w-full p-3 border rounded-lg">
-        <input type="password" id="login-password" placeholder="Contraseña" required class="w-full p-3 border rounded-lg">
-        <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 font-medium">Entrar</button>
-      </form>
-      <p class="text-center mt-4 text-sm text-gray-600">Agente: <code>nelsonarjunamendoza@hotmail.com</code> / <code>123456</code></p>
-    </div>
-  </div>
-
-  <!-- PERFIL -->
-  <div id="profile" class="page max-w-4xl mx-auto p-6">
-    <h2 class="text-3xl font-bold text-center mb-8 text-blue-800">Mi Perfil</h2>
-    <div class="bg-white p-8 rounded-xl shadow-lg mb-8">
-      <h3 class="text-2xl font-bold mb-4 text-blue-700">Información Personal</h3>
-      <div class="grid md:grid-cols-2 gap-4 text-lg">
-        <p><strong>Nombre:</strong> <span id="profile-name"></span></p>
-        <p><strong>Email:</strong> <span id="profile-email"></span></p>
-        <p><strong>Teléfono:</strong> <span id="profile-phone"></span></p>
-        <p><strong>Dirección:</strong> <span id="profile-address"></span></p>
-        <p><strong>Tipo:</strong> <span id="profile-type"></span></p>
-        <p id="profile-company-line" class="hidden"><strong>Empresa:</strong> <span id="profile-company"></span></p>
-        <p><strong>Millas acumuladas:</strong> <span id="profile-millas"></span></p>
+    <!-- REGISTRO -->
+    <div id="register" class="page max-w-md mx-auto p-6">
+      <div class="bg-white p-8 rounded-xl shadow-lg">
+        <h2 class="text-2xl font-bold text-center mb-6 text-blue-800">Crear Cuenta</h2>
+        <form onsubmit="registrar(event)" class="space-y-4">
+          <input type="text" id="reg-name" placeholder="Nombre completo" required class="w-full p-3 border rounded-lg">
+          <input type="text" id="reg-address" placeholder="Dirección" required class="w-full p-3 border rounded-lg">
+          <div id="company-field" class="hidden">
+            <input type="text" id="reg-company" placeholder="Nombre de la empresa" class="w-full p-3 border rounded-lg">
+          </div>
+          <input type="tel" id="reg-phone" placeholder="Teléfono" required class="w-full p-3 border rounded-lg">
+          <input type="email" id="reg-email" placeholder="Correo electrónico" required class="w-full p-3 border rounded-lg">
+          <input type="password" id="reg-password" placeholder="Contraseña" required class="w-full p-3 border rounded-lg">
+          <select id="reg-type" onchange="toggleCompany()" class="w-full p-3 border rounded-lg">
+            <option value="retail">Cliente minorista</option>
+            <option value="corporate">Cliente corporativo</option>
+          </select>
+          <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 font-medium">Registrarme</button>
+        </form>
       </div>
     </div>
-    <div class="bg-white p-8 rounded-xl shadow-lg">
-      <h3 class="text-2xl font-bold mb-4 text-blue-700">Mis Reservas</h3>
-      <div id="profile-reservas" class="space-y-4"></div>
-      <p id="no-reservas" class="text-gray-600 italic">No tienes reservas.</p>
-    </div>
-  </div>
-
-  <!-- GESTIÓN DE VUELOS -->
-  <div id="admin-vuelos" class="page max-w-6xl mx-auto p-6">
-    <h2 class="text-3xl font-bold text-center mb-8 text-blue-800">Gestión de Vuelos (Agente)</h2>
-    <div id="admin-vuelos-list" class="space-y-6"></div>
-  </div>
-
-  <!-- MODAL RESERVA -->
-  <div id="modal-reserva" class="modal">
-    <div class="modal-content">
-      <h3 class="text-xl font-bold mb-4">Reservar Vuelo</h3>
-      <input type="text" id="modal-numero" placeholder="Número de vuelo (ej: RD101)" class="w-full p-3 border rounded-lg mb-3">
-      <input type="number" id="modal-asiento" placeholder="Número de asiento (1-50)" min="1" max="50" class="w-full p-3 border rounded-lg mb-4">
-      <div class="flex space-x-3">
-        <button onclick="confirmarReserva()" class="flex-1 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700">Reservar</button>
-        <button onclick="cerrarModal('modal-reserva')" class="flex-1 bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-700">Cancelar</button>
+    <!-- LOGIN -->
+    <div id="login" class="page max-w-md mx-auto p-6">
+      <div class="bg-white p-8 rounded-xl shadow-lg">
+        <h2 class="text-2xl font-bold text-center mb-6 text-blue-800">Iniciar Sesión</h2>
+        <form onsubmit="iniciarSesion(event)" class="space-y-4">
+          <input type="email" id="login-email" placeholder="Correo" required class="w-full p-3 border rounded-lg">
+          <input type="password" id="login-password" placeholder="Contraseña" required class="w-full p-3 border rounded-lg">
+          <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 font-medium">Entrar</button>
+        </form>
       </div>
     </div>
-  </div>
+    <!-- PERFIL -->
+    <div id="profile" class="page max-w-4xl mx-auto p-6">
+      <h2 class="text-3xl font-bold text-center mb-8 text-blue-800">Mi Perfil</h2>
+      <div class="bg-white p-8 rounded-xl shadow-lg mb-8">
+        <h3 class="text-2xl font-bold mb-4 text-blue-700">Información Personal</h3>
+        <div class="grid md:grid-cols-2 gap-4 text-lg">
+          <p><strong>Nombre:</strong> <span id="profile-name"></span></p>
+          <p><strong>Email:</strong> <span id="profile-email"></span></p>
+          <p><strong>Teléfono:</strong> <span id="profile-phone"></span></p>
+          <p><strong>Dirección:</strong> <span id="profile-address"></span></p>
+          <p><strong>Tipo:</strong> <span id="profile-type"></span></p>
+          <p id="profile-company-line" class="hidden"><strong>Empresa:</strong> <span id="profile-company"></span></p>
+          <p><strong>Millas acumuladas:</strong> <span id="profile-millas"></span></p>
+        </div>
+      </div>
+      <div class="bg-white p-8 rounded-xl shadow-lg">
+        <h3 class="text-2xl font-bold mb-4 text-blue-700">Mis Reservas</h3>
+        <div id="profile-reservas" class="space-y-4"></div>
+        <p id="no-reservas" class="text-gray-600 italic">No tienes reservas.</p>
+      </div>
+    </div>
+    <!-- GESTIÓN DE VUELOS -->
+    <div id="admin-vuelos" class="page max-w-6xl mx-auto p-6">
+      <h2 class="text-3xl font-bold text-center mb-8 text-blue-800">Gestión de Vuelos (Agente)</h2>
+      <div id="admin-vuelos-list" class="space-y-6"></div>
+    </div>
+    <!-- MODAL RESERVA -->
+    <div id="modal-reserva" class="modal">
+      <div class="modal-content">
+        <h3 class="text-xl font-bold mb-4">Reservar Vuelo</h3>
+        <input type="text" id="modal-numero" placeholder="Número de vuelo (ej: RD101)" class="w-full p-3 border rounded-lg mb-3">
+        <input type="number" id="modal-asiento" placeholder="Número de asiento (1-50)" min="1" max="50" class="w-full p-3 border rounded-lg mb-4">
+        <div class="flex space-x-3">
+          <button onclick="confirmarReserva()" class="flex-1 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700">Reservar</button>
+          <button onclick="cerrarModal('modal-reserva')" class="flex-1 bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-700">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- PIE DE PÁGINA AZUL -->
+  <footer class="bg-blue-700 text-white py-4 mt-auto">
+    <div class="max-w-7xl mx-auto text-center text-sm">
+      © 2025 Código de Altura, solución al más alto nivel.
+    </div>
+  </footer>
 
   <!-- SCRIPTS -->
   <script>
@@ -169,10 +168,15 @@
       { id: 3, numero: "RD103", origen: "Aeropuerto Internacional Punta Cana, PUJ", destino: "Aeropuerto Internacional Hartsfield-Jackson, ATL", salida: "2025-11-22", hora: "10:15", precio: 980, asientos: 60 },
       { id: 4, numero: "RD104", origen: "Aeropuerto Internacional Las Americas, SDQ", destino: "El Dorado, Bogota co", salida: "2025-12-20", hora: "08:00", precio: 1250, asientos: 50 },
       { id: 5, numero: "RD105", origen: "Aeropuerto Internacional Las Americas, SDQ", destino: "Aeropuerto Internacional John F. Kennedy, NY, EU", salida: "2025-12-21", hora: "14:30", precio: 2890, asientos: 40 },
-      { id: 6, numero: "RD106", origen: "Aeropuerto Internacional Punta Cana, PUJ", destino: "Aeropuerto Internacional Hartsfield-Jackson, ATL", salida: "2025-12-22", hora: "10:15", precio: 980, asientos: 60 }
+      { id: 6, numero: "RD106", origen: "Aeropuerto Internacional Punta Cana, PUJ", destino: "Aeropuerto Internacional Hartsfield-Jackson, ATL", salida: "2025-12-22", hora: "10:15", precio: 980, asientos: 60 },
+      { id: 7, numero: "RD107", origen: "Aeropuerto Internacional Las Americas, SDQ", destino: "El Dorado, Bogota co", salida: "2025-11-20", hora: "08:00", precio: 1250, asientos: 50 },
+      { id: 8, numero: "RD108", origen: "Aeropuerto Internacional Las Americas, SDQ", destino: "Aeropuerto Internacional John F. Kennedy, NY, EU", salida: "2025-11-21", hora: "14:30", precio: 2890, asientos: 40 },
+      { id: 9, numero: "RD109", origen: "Aeropuerto Internacional Punta Cana, PUJ", destino: "Aeropuerto Internacional Hartsfield-Jackson, ATL", salida: "2025-11-22", hora: "10:15", precio: 980, asientos: 60 },
+      { id: 10, numero: "RD1010", origen: "Aeropuerto Internacional Las Americas, SDQ", destino: "El Dorado, Bogota co", salida: "2025-12-20", hora: "08:00", precio: 1250, asientos: 50 },
+      { id: 11, numero: "RD1011", origen: "Aeropuerto Internacional Las Americas, SDQ", destino: "Aeropuerto Internacional John F. Kennedy, NY, EU", salida: "2025-12-21", hora: "14:30", precio: 2890, asientos: 40 },
+      { id: 12, numero: "RD1012", origen: "Aeropuerto Internacional Punta Cana, PUJ", destino: "Aeropuerto Internacional Hartsfield-Jackson, ATL", salida: "2025-12-22", hora: "10:15", precio: 980, asientos: 60 }
     ]));
     localStorage.setItem('vuelos', JSON.stringify(vuelos));
-
     function show(pageId) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.getElementById(pageId).classList.add('active');
@@ -182,7 +186,6 @@
     }
     function abrirModal(id) { document.getElementById(id).classList.add('active'); }
     function cerrarModal(id) { document.getElementById(id).classList.remove('active'); }
-
     function toggleCompany() {
       const type = document.getElementById('reg-type').value;
       const field = document.getElementById('company-field');
@@ -190,7 +193,6 @@
       if (type === 'corporate') { field.classList.remove('hidden'); input.required = true; }
       else { field.classList.add('hidden'); input.required = false; }
     }
-
     function registrar(e) {
       e.preventDefault();
       const type = document.getElementById('reg-type').value;
@@ -212,7 +214,6 @@
       alert('¡Registrado!');
       show('login');
     }
-
     function iniciarSesion(e) {
       e.preventDefault();
       const email = document.getElementById('login-email').value.trim().toLowerCase();
@@ -224,14 +225,12 @@
       if (email === 'nelsonarjunamendoza@hotmail.com') show('admin-vuelos');
       else show('search');
     }
-
     function logout() {
       usuarioActual = null;
       localStorage.removeItem('lastSearch');
       actualizarNav();
       show('home');
     }
-
     function actualizarNav() {
       const nav = document.getElementById('nav-links');
       const user = document.getElementById('user-info');
@@ -247,18 +246,15 @@
         user.classList.add('hidden');
       }
     }
-
     function abrirReservaModal() {
       if (!usuarioActual) return alert('Inicia sesión'), show('login');
       abrirModal('modal-reserva');
     }
-
     function reservarConModal(numero) {
       if (!usuarioActual) return alert('Inicia sesión'), show('login');
       document.getElementById('modal-numero').value = numero;
       abrirModal('modal-reserva');
     }
-
     function confirmarReserva() {
       const numero = document.getElementById('modal-numero').value.trim().toUpperCase();
       const asiento = parseInt(document.getElementById('modal-asiento').value);
@@ -267,7 +263,6 @@
       if (!vuelo || vuelo.asientos < 1) return alert('Vuelo no disponible o sin asientos');
       const asientoOcupado = reservas.some(r => r.numero === numero && r.asiento === asiento);
       if (asientoOcupado) return alert('Asiento no disponible. Elija otro.');
-
       const millas = Math.floor(vuelo.precio * 0.001);
       reservas.push({
         ...vuelo,
@@ -288,24 +283,20 @@
       cerrarModal('modal-reserva');
       show('profile');
     }
-
     function eliminarReserva(i) {
       const r = reservas[i];
       const fechaReserva = new Date(r.fechaReserva);
       const hoy = new Date();
       const dias = Math.floor((hoy - fechaReserva) / (1000 * 60 * 60 * 24));
       let mensaje = `¿Cancelar reserva?\nVuelo: ${r.numero} - Asiento: ${r.asiento}`;
-      if (dias >= 7) mensaje += `\n\nAplica devolución del 80%: $${r.precio * 0.8}`;
+      if (dias >= 7) mensaje += `\n\nAplica devolución del 80%: DOP$${r.precio * 0.8}`;
       else mensaje += `\n\nNo aplica devolución (menos de 7 días)`;
-
       if (!confirm(mensaje)) return;
-
       if (usuarioActual.tipo === 'corporate' && r.millas) {
         usuarioActual.millas = Math.max(0, (usuarioActual.millas || 0) - r.millas);
         usuarios = usuarios.map(u => u.email === usuarioActual.email ? usuarioActual : u);
         localStorage.setItem('usuarios', JSON.stringify(usuarios));
       }
-
       reservas.splice(i, 1);
       const vuelo = vuelos.find(v => v.id === r.id);
       if (vuelo) vuelo.asientos++;
@@ -313,7 +304,6 @@
       localStorage.setItem('vuelos', JSON.stringify(vuelos));
       mostrarPerfil();
     }
-
     function mostrarPerfil() {
       if (!usuarioActual) return show('login');
       document.getElementById('profile-name').textContent = usuarioActual.nombre;
@@ -326,7 +316,6 @@
       if (usuarioActual.empresa) { companySpan.textContent = usuarioActual.empresa; companyLine.classList.remove('hidden'); }
       else companyLine.classList.add('hidden');
       document.getElementById('profile-millas').textContent = usuarioActual.tipo === 'corporate' ? (usuarioActual.millas || 0) : 'N/A';
-
       const misReservas = reservas.filter(r => r.email === usuarioActual.email);
       const container = document.getElementById('profile-reservas');
       const noRes = document.getElementById('no-reservas');
@@ -344,15 +333,14 @@
         </div>
       `).join('');
     }
-
     function mostrarAdminVuelos() {
       const container = document.getElementById('admin-vuelos-list');
       container.innerHTML = vuelos.map((v, i) => `
-        <div class="bg-white p-6 rounded-xl shadow-md">
+        <div class="bg-white p-6 rounded-xlラスト shadow-md">
           <div class="flex justify-between items-center mb-4">
             <div>
-              <p class="text-xl font-bold text-blue-700">${v.numero}</p>
-              <p>${v.origen} to ${v.destino}</p>
+              <b class="text-xl font-bold text-blue-700">${v.numero}</b>
+              <p>${v.origen} --> ${v.destino}</p>
               <p class="text-sm text-gray-600">${new Date(v.salida).toLocaleDateString()} - ${v.hora || 'No especificada'}</p>
             </div>
             <div class="text-right">
@@ -364,7 +352,6 @@
         </div>
       `).join('');
     }
-
     function editarVuelo(i) {
       const v = vuelos[i];
       const nuevoPrecio = prompt(`Precio actual: DOP$${v.precio}\nNuevo precio:`, v.precio);
@@ -378,7 +365,6 @@
       localStorage.setItem('vuelos', JSON.stringify(vuelos));
       mostrarAdminVuelos();
     }
-
     function buscarVuelos() {
       const o = document.getElementById('origen').value.trim().toLowerCase();
       const d = document.getElementById('destino').value.trim().toLowerCase();
@@ -398,7 +384,7 @@
           <div class="flex justify-between items-center">
             <div>
               <p class="text-2xl font-bold text-blue-700">${v.numero}</p>
-              <p class="text-lg">${v.origen} to ${v.destino}</p>
+              <p class="text-lg">${v.origen} --> ${v.destino}</p>
               <p class="text-gray-600">${new Date(v.salida + 'T12:00').toLocaleDateString('es-DO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} a las ${v.hora || 'No especificada'}</p>
             </div>
             <div class="text-right">
@@ -413,7 +399,6 @@
         res.appendChild(card);
       });
     }
-
     function limpiarBusqueda() {
       document.getElementById('origen').value = '';
       document.getElementById('destino').value = '';
@@ -421,7 +406,6 @@
       localStorage.removeItem('lastSearch');
       buscarVuelos();
     }
-
     window.onload = () => {
       usuarios = usuarios.filter(u => !['juan', 'luci', 'pedro'].includes(u.nombre.toLowerCase()));
       const agente = usuarios.find(u => u.email === 'nelsonarjunamendoza@hotmail.com');
@@ -446,3 +430,4 @@
   </script>
 </body>
 </html>
+
