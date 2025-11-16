@@ -302,7 +302,7 @@
       if (!vuelo || vuelo.asientos < 1) return alert('Vuelo no disponible o sin asientos');
       const asientoOcupado = reservas.some(r => r.numero === numero && r.asiento === asiento);
       if (asientoOcupado) return alert('Asiento no disponible. Elija otro.');
-      const millas = Math.floor(vuelo.precio * 0.001);
+      const millas = Math.floor(vuelo.precio * 0.01);
       reservas.push({
         ...vuelo,
         asiento,
