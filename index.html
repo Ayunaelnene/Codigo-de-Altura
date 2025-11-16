@@ -59,14 +59,16 @@
         Buscar Vuelos
       </button>
     </div>
+
     <!-- BUSCAR VUELOS -->
     <div id="search" class="page max-w-4xl mx-auto p-6">
       <h2 class="text-3xl font-bold text-center mb-8 text-blue-800">Buscar Vuelos</h2>
       <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
-        <div class="grid md:grid-cols-3 gap-4 mb-4">
-          <input type="text" id="origen" placeholder="Origen" class="p-3 border rounded-lg" value="Santo Domingo R.D.">
+        <div class="grid md:grid-cols-2 gap-4 mb-4">
+          <!-- DESTINO -->
           <input type="text" id="destino" placeholder="Destino" class="p-3 border rounded-lg">
-          <input type="date" id="fecha" class="p-3 border rounded-lg">
+          <!-- HORA (24h) -->
+          <input type="time" id="hora" class="p-3 border rounded-lg">
         </div>
         <div class="flex space-x-3 mb-4">
           <button onclick="buscarVuelos()" class="flex-1 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 font-medium">Buscar</button>
@@ -78,6 +80,7 @@
       </div>
       <div id="resultados" class="space-y-6"></div>
     </div>
+
     <!-- REGISTRO -->
     <div id="register" class="page max-w-md mx-auto p-6">
       <div class="bg-white p-8 rounded-xl shadow-lg">
@@ -99,6 +102,7 @@
         </form>
       </div>
     </div>
+
     <!-- LOGIN -->
     <div id="login" class="page max-w-md mx-auto p-6">
       <div class="bg-white p-8 rounded-xl shadow-lg">
@@ -110,6 +114,7 @@
         </form>
       </div>
     </div>
+
     <!-- PERFIL -->
     <div id="profile" class="page max-w-4xl mx-auto p-6">
       <h2 class="text-3xl font-bold text-center mb-8 text-blue-800">Mi Perfil</h2>
@@ -131,11 +136,13 @@
         <p id="no-reservas" class="text-gray-600 italic">No tienes reservas.</p>
       </div>
     </div>
+
     <!-- GESTIÓN DE VUELOS -->
     <div id="admin-vuelos" class="page max-w-6xl mx-auto p-6">
       <h2 class="text-3xl font-bold text-center mb-8 text-blue-800">Gestión de Vuelos (Agente)</h2>
       <div id="admin-vuelos-list" class="space-y-6"></div>
     </div>
+
     <!-- MODAL RESERVA -->
     <div id="modal-reserva" class="modal">
       <div class="modal-content">
@@ -162,21 +169,44 @@
     let usuarioActual = null;
     let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
     let reservas = JSON.parse(localStorage.getItem('reservas') || '[]');
+
+    // 25 VUELOS REALES (RD → EE.UU., Colombia, Puerto Rico)
     let vuelos = JSON.parse(localStorage.getItem('vuelos') || JSON.stringify([
-      { id: 1, numero: "RD101", origen: "Aeropuerto Internacional Las Americas, SDQ", destino: "El Dorado, Bogota co", salida: "2025-11-20", hora: "08:00", precio: 1250, asientos: 50 },
-      { id: 2, numero: "RD102", origen: "Aeropuerto Internacional Las Americas, SDQ", destino: "Aeropuerto Internacional John F. Kennedy, NY, EU", salida: "2025-11-21", hora: "14:30", precio: 2890, asientos: 40 },
-      { id: 3, numero: "RD103", origen: "Aeropuerto Internacional Punta Cana, PUJ", destino: "Aeropuerto Internacional Hartsfield-Jackson, ATL", salida: "2025-11-22", hora: "10:15", precio: 980, asientos: 60 },
-      { id: 4, numero: "RD104", origen: "Aeropuerto Internacional Las Americas, SDQ", destino: "El Dorado, Bogota co", salida: "2025-12-20", hora: "08:00", precio: 1250, asientos: 50 },
-      { id: 5, numero: "RD105", origen: "Aeropuerto Internacional Las Americas, SDQ", destino: "Aeropuerto Internacional John F. Kennedy, NY, EU", salida: "2025-12-21", hora: "14:30", precio: 2890, asientos: 40 },
-      { id: 6, numero: "RD106", origen: "Aeropuerto Internacional Punta Cana, PUJ", destino: "Aeropuerto Internacional Hartsfield-Jackson, ATL", salida: "2025-12-22", hora: "10:15", precio: 980, asientos: 60 },
-      { id: 7, numero: "RD107", origen: "Aeropuerto Internacional Las Americas, SDQ", destino: "El Dorado, Bogota co", salida: "2025-11-20", hora: "08:00", precio: 1250, asientos: 50 },
-      { id: 8, numero: "RD108", origen: "Aeropuerto Internacional Las Americas, SDQ", destino: "Aeropuerto Internacional John F. Kennedy, NY, EU", salida: "2025-11-21", hora: "14:30", precio: 2890, asientos: 40 },
-      { id: 9, numero: "RD109", origen: "Aeropuerto Internacional Punta Cana, PUJ", destino: "Aeropuerto Internacional Hartsfield-Jackson, ATL", salida: "2025-11-22", hora: "10:15", precio: 980, asientos: 60 },
-      { id: 10, numero: "RD1010", origen: "Aeropuerto Internacional Las Americas, SDQ", destino: "El Dorado, Bogota co", salida: "2025-12-20", hora: "08:00", precio: 1250, asientos: 50 },
-      { id: 11, numero: "RD1011", origen: "Aeropuerto Internacional Las Americas, SDQ", destino: "Aeropuerto Internacional John F. Kennedy, NY, EU", salida: "2025-12-21", hora: "14:30", precio: 2890, asientos: 40 },
-      { id: 12, numero: "RD1012", origen: "Aeropuerto Internacional Punta Cana, PUJ", destino: "Aeropuerto Internacional Hartsfield-Jackson, ATL", salida: "2025-12-22", hora: "10:15", precio: 980, asientos: 60 }
+      // LAS AMÉRICAS (SDQ)
+      { id: 1, numero: "RD101", origen: "Las Américas, SDQ", destino: "El Dorado, Bogotá, CO", salida: "2025-11-20", hora: "08:00", precio: 1250, asientos: 50 },
+      { id: 2, numero: "RD102", origen: "Las Américas, SDQ", destino: "JFK, Nueva York, USA", salida: "2025-11-20", hora: "14:30", precio: 2890, asientos: 40 },
+      { id: 3, numero: "RD103", origen: "Las Américas, SDQ", destino: "Luis Muñoz Marín, San Juan, PR", salida: "2025-11-20", hora: "10:15", precio: 980, asientos: 60 },
+      { id: 4, numero: "RD104", origen: "Las Américas, SDQ", destino: "Miami Intl, Miami, USA", salida: "2025-11-21", hora: "07:00", precio: 2150, asientos: 55 },
+      { id: 5, numero: "RD105", origen: "Las Américas, SDQ", destino: "El Dorado, Bogotá, CO", salida: "2025-11-21", hora: "16:45", precio: 1250, asientos: 50 },
+      { id: 6, numero: "RD106", origen: "Las Américas, SDQ", destino: "Hartsfield-Jackson, Atlanta, USA", salida: "2025-11-21", hora: "12:00", precio: 1980, asientos: 45 },
+      { id: 7, numero: "RD107", origen: "Las Américas, SDQ", destino: "Luis Muñoz Marín, San Juan, PR", salida: "2025-11-22", hora: "09:30", precio: 980, asientos: 60 },
+      { id: 8, numero: "RD108", origen: "Las Américas, SDQ", destino: "JFK, Nueva York, USA", salida: "2025-11-22", hora: "18:00", precio: 2890, asientos: 40 },
+      { id: 9, numero: "RD109", origen: "Las Américas, SDQ", destino: "Miami Intl, Miami, USA", salida: "2025-11-22", hora: "13:15", precio: 2150, asientos: 55 },
+      { id: 10, numero: "RD110", origen: "Las Américas, SDQ", destino: "El Dorado, Bogotá, CO", salida: "2025-11-23", hora: "11:00", precio: 1250, asientos: 50 },
+
+      // PUNTA CANA (PUJ)
+      { id: 11, numero: "RD201", origen: "Punta Cana, PUJ", destino: "JFK, Nueva York, USA", salida: "2025-11-20", hora: "09:00", precio: 3100, asientos: 42 },
+      { id: 12, numero: "RD202", origen: "Punta Cana, PUJ", destino: "Miami Intl, Miami, USA", salida: "2025-11-20", hora: "15:30", precio: 1980, asientos: 58 },
+      { id: 13, numero: "RD203", origen: "Punta Cana, PUJ", destino: "Luis Muñoz Marín, San Juan, PR", salida: "2025-11-20", hora: "11:45", precio: 890, asientos: 62 },
+      { id: 14, numero: "RD204", origen: "Punta Cana, PUJ", destino: "Hartsfield-Jackson, Atlanta, USA", salida: "2025-11-21", hora: "08:15", precio: 2250, asientos: 48 },
+      { id: 15, numero: "RD205", origen: "Punta Cana, PUJ", destino: "El Dorado, Bogotá, CO", salida: "2025-11-21", hora: "17:00", precio: 1380, asientos: 50 },
+      { id: 16, numero: "RD206", origen: "Punta Cana, PUJ", destino: "JFK, Nueva York, USA", salida: "2025-11-22", hora: "13:30", precio: 3100, asientos: 42 },
+      { id: 17, numero: "RD207", origen: "Punta Cana, PUJ", destino: "Miami Intl, Miami, USA", salida: "2025-11-22", hora: "19:00", precio: 1980, asientos: 58 },
+      { id: 18, numero: "RD208", origen: "Punta Cana, PUJ", destino: "Luis Muñoz Marín, San Juan, PR", salida: "2025-11-23", hora: "10:00", precio: 890, asientos: 62 },
+
+      // LA ROMANA (LRM)
+      { id: 19, numero: "RD301", origen: "La Romana, LRM", destino: "Miami Intl, Miami, USA", salida: "2025-11-20", hora: "10:30", precio: 1890, asientos: 50 },
+      { id: 20, numero: "RD302", origen: "La Romana, LRM", destino: "JFK, Nueva York, USA", salida: "2025-11-21", hora: "14:00", precio: 2980, asientos: 38 },
+      { id: 21, numero: "RD303", origen: "La Romana, LRM", destino: "Luis Muñoz Marín, San Juan, PR", salida: "2025-11-22", hora: "12:15", precio: 920, asientos: 55 },
+
+      // SANTIAGO (STI)
+      { id: 22, numero: "RD401", origen: "Cibao, Santiago, STI", destino: "JFK, Nueva York, USA", salida: "2025-11-20", hora: "07:45", precio: 2750, asientos: 45 },
+      { id: 23, numero: "RD402", origen: "Cibao, Santiago, STI", destino: "Miami Intl, Miami, USA", salida: "2025-11-21", hora: "11:30", precio: 2050, asientos: 52 },
+      { id: 24, numero: "RD403", origen: "Cibao, Santiago, STI", destino: "Luis Muñoz Marín, San Juan, PR", salida: "2025-11-22", hora: "16:00", precio: 950, asientos: 60 },
+      { id: 25, numero: "RD404", origen: "Cibao, Santiago, STI", destino: "El Dorado, Bogotá, CO", salida: "2025-11-23", hora: "13:45", precio: 1320, asientos: 48 }
     ]));
     localStorage.setItem('vuelos', JSON.stringify(vuelos));
+
     function show(pageId) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.getElementById(pageId).classList.add('active');
@@ -184,8 +214,10 @@
       if (pageId === 'search') buscarVuelos();
       if (pageId === 'admin-vuelos') mostrarAdminVuelos();
     }
+
     function abrirModal(id) { document.getElementById(id).classList.add('active'); }
     function cerrarModal(id) { document.getElementById(id).classList.remove('active'); }
+
     function toggleCompany() {
       const type = document.getElementById('reg-type').value;
       const field = document.getElementById('company-field');
@@ -193,6 +225,7 @@
       if (type === 'corporate') { field.classList.remove('hidden'); input.required = true; }
       else { field.classList.add('hidden'); input.required = false; }
     }
+
     function registrar(e) {
       e.preventDefault();
       const type = document.getElementById('reg-type').value;
@@ -214,6 +247,7 @@
       alert('¡Registrado!');
       show('login');
     }
+
     function iniciarSesion(e) {
       e.preventDefault();
       const email = document.getElementById('login-email').value.trim().toLowerCase();
@@ -225,12 +259,14 @@
       if (email === 'nelsonarjunamendoza@hotmail.com') show('admin-vuelos');
       else show('search');
     }
+
     function logout() {
       usuarioActual = null;
       localStorage.removeItem('lastSearch');
       actualizarNav();
       show('home');
     }
+
     function actualizarNav() {
       const nav = document.getElementById('nav-links');
       const user = document.getElementById('user-info');
@@ -246,15 +282,18 @@
         user.classList.add('hidden');
       }
     }
+
     function abrirReservaModal() {
       if (!usuarioActual) return alert('Inicia sesión'), show('login');
       abrirModal('modal-reserva');
     }
+
     function reservarConModal(numero) {
       if (!usuarioActual) return alert('Inicia sesión'), show('login');
       document.getElementById('modal-numero').value = numero;
       abrirModal('modal-reserva');
     }
+
     function confirmarReserva() {
       const numero = document.getElementById('modal-numero').value.trim().toUpperCase();
       const asiento = parseInt(document.getElementById('modal-asiento').value);
@@ -283,6 +322,7 @@
       cerrarModal('modal-reserva');
       show('profile');
     }
+
     function eliminarReserva(i) {
       const r = reservas[i];
       const fechaReserva = new Date(r.fechaReserva);
@@ -304,6 +344,7 @@
       localStorage.setItem('vuelos', JSON.stringify(vuelos));
       mostrarPerfil();
     }
+
     function mostrarPerfil() {
       if (!usuarioActual) return show('login');
       document.getElementById('profile-name').textContent = usuarioActual.nombre;
@@ -333,10 +374,11 @@
         </div>
       `).join('');
     }
+
     function mostrarAdminVuelos() {
       const container = document.getElementById('admin-vuelos-list');
       container.innerHTML = vuelos.map((v, i) => `
-        <div class="bg-white p-6 rounded-xlラスト shadow-md">
+        <div class="bg-white p-6 rounded-xl shadow-md">
           <div class="flex justify-between items-center mb-4">
             <div>
               <b class="text-xl font-bold text-blue-700">${v.numero}</b>
@@ -352,6 +394,7 @@
         </div>
       `).join('');
     }
+
     function editarVuelo(i) {
       const v = vuelos[i];
       const nuevoPrecio = prompt(`Precio actual: DOP$${v.precio}\nNuevo precio:`, v.precio);
@@ -365,18 +408,28 @@
       localStorage.setItem('vuelos', JSON.stringify(vuelos));
       mostrarAdminVuelos();
     }
+
+    // BÚSQUEDA SOLO POR DESTINO + HORA
     function buscarVuelos() {
-      const o = document.getElementById('origen').value.trim().toLowerCase();
       const d = document.getElementById('destino').value.trim().toLowerCase();
-      const f = document.getElementById('fecha').value;
-      localStorage.setItem('lastSearch', JSON.stringify({origen: o, destino: d, fecha: f}));
-      const res = document.getElementById('resultados'); res.innerHTML = '';
-      const filtrados = vuelos.filter(v =>
-        (!o || v.origen.toLowerCase().includes(o)) &&
-        (!d || v.destino.toLowerCase().includes(d)) &&
-        (!f || v.salida === f)
-      );
-      if (filtrados.length === 0) return res.innerHTML = '<p class="text-center text-gray-600">Sin resultados.</p>';
+      const h = document.getElementById('hora').value; // "HH:MM" en 24h
+
+      localStorage.setItem('lastSearch', JSON.stringify({destino: d, hora: h}));
+
+      const res = document.getElementById('resultados'); 
+      res.innerHTML = '';
+
+      const filtrados = vuelos.filter(v => {
+        const destinoMatch = !d || v.destino.toLowerCase().includes(d);
+        const horaMatch = !h || v.hora === h;
+        return destinoMatch && horaMatch;
+      });
+
+      if (filtrados.length === 0) {
+        res.innerHTML = '<p class="text-center text-gray-600">Sin resultados.</p>';
+        return;
+      }
+
       filtrados.forEach(v => {
         const card = document.createElement('div');
         card.className = 'flight-card bg-white p-6 rounded-xl shadow-md';
@@ -385,7 +438,7 @@
             <div>
               <p class="text-2xl font-bold text-blue-700">${v.numero}</p>
               <p class="text-lg">${v.origen} --> ${v.destino}</p>
-              <p class="text-gray-600">${new Date(v.salida + 'T12:00').toLocaleDateString('es-DO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} a las ${v.hora || 'No especificada'}</p>
+              <p class="text-gray-600">${new Date(v.salida).toLocaleDateString('es-DO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} a las <strong>${v.hora}</strong></p>
             </div>
             <div class="text-right">
               <p class="text-3xl font-bold text-green-600">DOP$${v.precio}</p>
@@ -399,13 +452,14 @@
         res.appendChild(card);
       });
     }
+
     function limpiarBusqueda() {
-      document.getElementById('origen').value = '';
       document.getElementById('destino').value = '';
-      document.getElementById('fecha').value = '';
+      document.getElementById('hora').value = '';
       localStorage.removeItem('lastSearch');
       buscarVuelos();
     }
+
     window.onload = () => {
       usuarios = usuarios.filter(u => !['juan', 'luci', 'pedro'].includes(u.nombre.toLowerCase()));
       const agente = usuarios.find(u => u.email === 'nelsonarjunamendoza@hotmail.com');
