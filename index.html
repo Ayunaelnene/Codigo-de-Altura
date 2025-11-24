@@ -313,13 +313,20 @@
 
     function confirmarReserva() {
       const numero = document.getElementById('modal-numero').value.trim().toUpperCase();
-      const asiento = parseInt(document.getElementById('modal-asiento').value);
+      const asiento = parseInt(document.getElementById('modal-asiento').value);      
       if (!numero || isNaN(asiento) || asiento < 1 || asiento > 50) return alert('Datos incorrectos');
       const vuelo = vuelos.find(v => v.numero === numero);
+      const total = vuelo.precio - usuarioActual.millas;
       if (!vuelo || vuelo.asientos < 1) return alert('Vuelo no disponible o sin asientos');
       const asientoOcupado = reservas.some(r => r.numero === numero && r.asiento === asiento);
       if (asientoOcupado) return alert('Asiento no disponible. Elija otro.');
-      const millas = Math.floor(vuelo.precio * 0.1);
+      const millas = Math.floor(vuelo.precio * 0.001);
+      if (usuarioActual.tipo === 'corporate' && usuarioActual.millas > 100) {
+        let mensaje = `¿Aplicar descuento por millas?\nMillas: ${usuarioActual.millas}\nPrecio vuelo: ${vuelo.precio}\nTotal: ${total}`;
+        if (confirm(mensaje)){ alert('Descuento aplicado!')
+        usuarioActual.millas -= usuarioActual.millas;
+        };
+      }
       reservas.push({
         ...vuelo,
         asiento,
@@ -342,13 +349,14 @@
 
     function eliminarReserva(i) {
       const r = reservas[i];
-      const fechaReserva = new Date(r.fechaReserva);
+      const fechaReserva = new Date(r.salida);
       const hoy = new Date();
       const dias = Math.floor((hoy - fechaReserva) / (1000 * 60 * 60 * 24));
       let mensaje = `¿Cancelar reserva?\nVuelo: ${r.numero} - Asiento: ${r.asiento}`;
       if (dias >= 7) mensaje += `\n\nAplica devolución del 80%: DOP$${r.precio * 0.8}`;
       else mensaje += `\n\nNo aplica devolución (menos de 7 días)`;
       if (!confirm(mensaje)) return;
+      else alert('Vuelo cancelado!');
       if (usuarioActual.tipo === 'corporate' && r.millas) {
         usuarioActual.millas = Math.max(0, (usuarioActual.millas || 0) - r.millas);
         usuarios = usuarios.map(u => u.email === usuarioActual.email ? usuarioActual : u);
@@ -465,8 +473,9 @@
             <div class="flex justify-between items-start mb-4">
               <div>
                 <p class="text-3xl font-bold text-blue-900">${v.numero}</p>
-                <p class="text-xl text-gray-700 mt-2">${v.origen}</p>
-                <p class="text-2xl text-blue-600">→ ${v.destino}</p>
+                <p class="text-2xl text-purple-700 mt-2">${v.origen}</p>
+                <p class="text-2xl text-red-600">→</p>
+                <p class="text-2xl text-blue-600"> ${v.destino}</p>
               </div>
               <div class="text-right">
                 <p class="text-4xl font-bold text-green-600">DOP$${v.precio}</p>
