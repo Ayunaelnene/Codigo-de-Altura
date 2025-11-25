@@ -321,7 +321,7 @@
       const asientoOcupado = reservas.some(r => r.numero === numero && r.asiento === asiento);
       if (asientoOcupado) return alert('Asiento no disponible. Elija otro.');
       const millas = Math.floor(vuelo.precio * 0.001);
-      if (usuarioActual.tipo === 'corporate' && usuarioActual.millas > 100) {
+      if (usuarioActual.tipo === 'corporate' && usuarioActual.millas > 0) {
         let mensaje = `¿Aplicar descuento por millas?\nMillas: ${usuarioActual.millas}\nPrecio vuelo: ${vuelo.precio}\nTotal: ${total}`;
         if (confirm(mensaje)){ alert('Descuento aplicado!')
         usuarioActual.millas -= usuarioActual.millas;
